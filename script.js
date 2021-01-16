@@ -4,9 +4,9 @@ const view = {
     messageArea.innerHTML = msg;
   },
 
-  displayHit: function (location) {
+  displayHit: function (location) { //this is the ID name of the cell in the html. where is it getting this input from (which location variable)? 
     const cell = document.getElementById(location);
-    cell.setAttribute("class", "hit");
+    cell.setAttribute("class", "hit"); // how does it know it's a hit? from the below? 
 
   },
 
@@ -35,7 +35,7 @@ const model = {
         ship.hits[index] = "hit";
         view.displayHit(guess);
         view.displayMessage("HIT!");
-        if (this.shipsSunk(ship)) {
+        if (this.isSunk(ship)) {
           view.displayMessage("You sank my battleship!");
           this.shipsSunk++;
         }
@@ -48,22 +48,19 @@ const model = {
   },
   isSunk: function (ship) {
     for (let i = 0; i < this.shipLength; i++) {
-      if (ship.hits[i] !== "hits") {
+      if (ship.hits[i] !== "hit") {
         return false;
       }
     }
     return true;
   }
 };
-function test() {
-  const x = "TEST";
-}
 
 function parseGuess(guess) { //C3
   const alphabet = ["A", "B", "C", "D", "E", "F", "G"];
 
   if (guess === null || guess.length !== 2) {
-    alert("Oops, please enter a letter and a number on the board.");
+    alert("Oops, please enter a letter and a number on the board. [" + guess + "]");
   } else {
     const firstChar = guess.charAt(0);
     const row = alphabet.indexOf(firstChar); //give me the index of letter C if the guess is C3
@@ -84,14 +81,43 @@ const controller = {
   guesses: 0,
 
   processGuess: function (guess) {
-    let location = parseGuess(guess);
+    let location = parseGuess(guess); //this guess has been parsed and verified
     if (location) {
-      this.guesses++;
-      let hit = model.fire(location);
+      this.guesses++; //this just counts all the valid guesses
+      let hit = model.fire(location); //where is this location in model? 
       if (hit && model.shipsSunk === model.numShips) {
         view.displayMessage("You sank all my battleshiops, in " + this.guesses + " guesses")
       }
     }
   }
 };
+
+
+function handleFireButton() {
+  const guessInput = document.getElementById("guessInput");
+  const guess = guessInput.value.toUpperCase();
+  controller.processGuess(guess);
+  guessInput.value = "";
+}
+
+function handleKeypress(e) {
+  const fireButton = document.getElementById("fireButton");
+  if (e.keyCode === 13) {
+    fireButton.click();
+    return false;
+  }
+}
+
+window.onload = init;
+
+
+function init() {
+  const fireButton = document.getElementById("fireButton");
+  fireButton.onclick = handleFireButton;
+  const guessInput = document.getElementById("guessInput");
+  guessInput.onkeypress = handleKeypress;
+}
+
+
+
 
