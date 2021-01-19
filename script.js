@@ -23,10 +23,11 @@ const model = {
   shipsSunk: 0,
   shipLength: 3,
   ships: [
-    { locations: ["06", "16", "26"], hits: ["", "", ""] },
-    { locations: ["24", "34", "44"], hits: ["", "", ""] },
-    { locations: ["10", "11", "12"], hits: ["", "", ""] }
+    { locations: [0, 0, 0], hits: ["", "", ""] },
+    { locations: [0, 0, 0], hits: ["", "", ""] },
+    { locations: [0, 0, 0], hits: ["", "", ""] },
   ],
+
   fire: function (guess) {
     for (let i = 0; i < this.numShips; i++) {
       let ship = this.ships[i];
@@ -53,8 +54,67 @@ const model = {
       }
     }
     return true;
+  },
+
+  generateShipLocations: function () {
+    let locations;
+    for (let i = 0; i < this.numShips; i++) {
+      do {
+        locations = this.generateShip();
+      }
+      while (this.collision(locations));
+      this.ships[i].locations = locations;
+    }
+  },
+
+  generateShip: function () {
+    const direction = Math.floor(Math.random() * 2);
+    let row;
+    let col;
+    if (direction === 1) {
+      //Generate a starting location for a horizontal ship
+      row = Math.floor(Math.random() * this.boardSize);
+      col = Math.floor(Math.random() * (this.boardSize - (this.shipLength + 1)));
+    } else {
+      //Generate a starting location for a vertical ship
+      row = Math.floor(Math.random() * (this.boardSize - (this.shipLength + 1)));
+      col = Math.floor(Math.random() * this.boardSize);
+    }
+
+    const newShipLocations = [];
+    for (let i = 0; i < this.shipLength; i++) {
+      if (direction === 1) {
+        //add location to array for new horizontal ship
+        newShipLocations.push(row + "" + (col + i));
+      } else {
+        //add location to array for vertical ship
+        newShipLocations.push((row + i) + "" + col);
+      }
+    }
+    return newShipLocations;
+  },
+
+  collision: function (locations) {
+    for (let i = 0; i < this.numShips; i++) {
+      let ship = this.ships[i]; //this "ships in the above is just locations"
+      for (let j = 0; j < locations.length; j++) {
+        if (ship.locations.indexOf(locations[j]) >= 0) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 };
+
+function init() {
+  const fireButton = document.getElementById("fireButton");
+  fireButton.onclick = handleFireButton;
+  const guessInput = document.getElementById("guessInput");
+  guessInput.onkeypress = handleKeypress;
+
+  model.generateShipLocations();
+}
 
 function parseGuess(guess) { //C3
   const alphabet = ["A", "B", "C", "D", "E", "F", "G"];
@@ -111,12 +171,14 @@ function handleKeypress(e) {
 window.onload = init;
 
 
-function init() {
-  const fireButton = document.getElementById("fireButton");
-  fireButton.onclick = handleFireButton;
-  const guessInput = document.getElementById("guessInput");
-  guessInput.onkeypress = handleKeypress;
-}
+// function init() {
+//   const fireButton = document.getElementById("fireButton");
+//   fireButton.onclick = handleFireButton;
+//   const guessInput = document.getElementById("guessInput");
+//   guessInput.onkeypress = handleKeypress;
+
+//   model.generateShipLocations();
+// }
 
 
 
