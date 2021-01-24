@@ -2,55 +2,167 @@ body {
   background-color: black;
 }
 
+
 div#board {
-  position: relative;
-  width: 1024px;
-  height: 863px;
+  display: flex;
   margin: auto;
-  background: url("board.jpg") no-repeat;
 }
 
-div#messageArea {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  color: rgb(83, 175, 19)
+
+
+#messageArea {
+  color: white;
+  font-family: 'Play', sans-serif;
+  font-size: 2vw;
+  padding: 2%;
+  margin: auto;
 }
 
 table {
-  position: absolute;
-  left: 173px;
-  top: 98px; 
+  
+  background: url("radar-dark.gif") center no-repeat;
   border-spacing: 0px; 
-  /* border: aliceblue solid 2px; */
 }
 
-td {
-  width: 94px;
-  height: 94px;
-  /* border: aliceblue solid 2px; */
+img {
+ opacity: 10%;
+}
 
+
+
+td {
+  margin: auto;
+  border: solid lightgray 1px;
+  border-color: rgb(83, 175, 19);
+  width: 8vw;
+  height: 10vh;
 }
 
 form {
-  position: absolute;
-  bottom: 0px;
-  right: 0px; 
-  padding: 15px; 
-  background-color: rgb(83, 175, 19);
+  margin-top: 10%;
+  margin-right: 8%;
+  margin-left: 8%;
+  margin-bottom: 10%;
+  padding: 3%; 
+  border: rgb(83, 175, 19) solid 2px;
+  background-color: black;
+  font-family: 'Play', sans-serif;
 }
 
 form input {
-  background-color: rgp(152, 207, 113);
-  border-color: rgb(83, 175, 19);
   font-size: 1em; 
+  padding: 1%;
+  display: flex;
 }
 
+
+#label {
+  color: whitesmoke;
+  font-size: 3vh;
+}
+
+
+#guessInput {
+  margin-top: 5%;
+  margin-bottom: 5%;
+  font-family: 'Play', sans-serif;
+  font-size: 2vw;
+  background-color: black;
+  border: rgb(83, 175, 19) solid 2px;
+  color: whitesmoke;
+}
+
+
+#fireButton {
+  height: 8vh;
+  width: 8vw;
+  font-size: 2.8vw;
+
+  font-family: 'helvetica';
+  font-weight: bold;
+  -webkit-box-shadow: 2px 3px 8px 0px rgba(196, 191, 191, 0.75);
+  -moz-box-shadow: 2px 3px 8px 0px rgba(196, 191, 191, 0.75);
+  box-shadow: 2px 3px 8px 0px rgba(196, 191, 191, 0.75);
+  transition: all .1s ease-in-out;
+}
+
+
+
+#fireButton:hover {
+  background-color: red;
+  animation-fill-mode: forwards;
+  transform: scale(.9);
+  -webkit-box-shadow: 1px 2px 7px 0px rgba(153, 150, 150, 0.75);
+  -moz-box-shadow: 1px 2px 7px 0px rgba(153, 150, 150, 0.75);
+  box-shadow: 1px 2px 7px 0px rgba(153, 150, 150, 0.75);
+}
+
+
 .hit {
-  background: url("ship.png") no-repeat center center;
+  background: url("ship-red1.png") no-repeat center center;
 }
 
 .miss {
-  background: url("miss.png") no-repeat center center;
+  background: url("miss-white.png") no-repeat center center;
+}
+
+.columnNumber {
+  color: rgb(83, 175, 19);
+  text-align: center;
+  font-size: 5vh;
+  font-family: 'Play', sans-serif;
+}
+
+
+.rowLetter {
+  color: rgb(83, 175, 19);
+  text-align: center;
+  font-size: 5vh;
+  font-family: 'Play', sans-serif;
+}
+
+
+/* #rightSide {
+  border: solid teal 2px;
+  width: 35vw;
+} */
+
+p {
+  font-family: 'Play', sans-serif;
+  font-size: 5vw;
+  color: white;
+  margin-top: 0;
+  margin-left: 13%;
 
 }
+
+#hidden {
+  display: none;
+}
+
+
+
+@media (max-width: 740px) {
+  #hidden {
+    display: block;
+  }
+  
+  #board {
+    display: none;
+  }
+
+  #messageArea{
+    display: none;
+  }
+
+
+  #rightSide {
+    display: none;
+  }
+
+  table {
+    display: none;
+  }
+
+  
+  }

@@ -4,9 +4,9 @@ const view = {
     messageArea.innerHTML = msg;
   },
 
-  displayHit: function (location) { //this is the ID name of the cell in the html. where is it getting this input from (which location variable)? 
+  displayHit: function (location) {
     const cell = document.getElementById(location);
-    cell.setAttribute("class", "hit"); // how does it know it's a hit? from the below? 
+    cell.setAttribute("class", "hit");
 
   },
 
@@ -33,6 +33,10 @@ const model = {
       let ship = this.ships[i];
       let index = ship.locations.indexOf(guess);
       if (index >= 0) {
+        if (ship.hits[index] === "hit") {
+          view.displayMessage("This location has already been hit.");
+          return false;
+        }
         ship.hits[index] = "hit";
         view.displayHit(guess);
         view.displayMessage("HIT!");
@@ -64,6 +68,7 @@ const model = {
       }
       while (this.collision(locations));
       this.ships[i].locations = locations;
+      console.log(locations.map(location => String.fromCharCode(location / 10 + 65) + location % 10))
     }
   },
 
@@ -107,6 +112,7 @@ const model = {
   }
 };
 
+
 function init() {
   const fireButton = document.getElementById("fireButton");
   fireButton.onclick = handleFireButton;
@@ -144,7 +150,7 @@ const controller = {
     let location = parseGuess(guess); //this guess has been parsed and verified
     if (location) {
       this.guesses++; //this just counts all the valid guesses
-      let hit = model.fire(location); //where is this location in model? 
+      let hit = model.fire(location);
       if (hit && model.shipsSunk === model.numShips) {
         view.displayMessage("You sank all my battleshiops, in " + this.guesses + " guesses")
       }
@@ -171,14 +177,6 @@ function handleKeypress(e) {
 window.onload = init;
 
 
-// function init() {
-//   const fireButton = document.getElementById("fireButton");
-//   fireButton.onclick = handleFireButton;
-//   const guessInput = document.getElementById("guessInput");
-//   guessInput.onkeypress = handleKeypress;
-
-//   model.generateShipLocations();
-// }
 
 
 
