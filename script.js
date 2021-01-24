@@ -1,3 +1,5 @@
+//Battleship coding exercise from Head First Javascript Programming guide. 
+
 const view = {
   displayMessage: function (msg) {
     const messageArea = document.getElementById("messageArea");
